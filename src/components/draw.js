@@ -24,7 +24,18 @@ import CanvasDraw from "react-canvas-draw";
     }
     
      return(
+         <div>
+             <div className="code-bar">
+            <p className="code">Code:<span className="code-text">JEROE</span> </p>
+           <p className="countdown"><span>50</span>s</p>
+            </div>
+             <div className="messages">
+               <p>NAMASMDASDas</p>
+               
+            </div> 
          <div className="draw">
+
+
             <CanvasDraw 
             className="canvasDraw"
             ref={drawId}
@@ -32,7 +43,7 @@ import CanvasDraw from "react-canvas-draw";
             brushColor={color}
             lazyRadius={0}
             canvasWidth={window.innerWidth}
-            canvasHeight={window.innerHeight - 175}
+            canvasHeight={window.innerHeight - 350}
             brushRadius={brush}
             hideInterface={true}
             saveData={saved ? saved : null}
@@ -59,8 +70,7 @@ import CanvasDraw from "react-canvas-draw";
             <img src={process.env.PUBLIC_URL + '/bin.png'} />
             </button>
         </div>  
-        <button onClick={save}>save</button>
-        </div>
+        </div></div>
          
      )
  }

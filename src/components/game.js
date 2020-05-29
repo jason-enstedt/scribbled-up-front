@@ -62,7 +62,7 @@ const Game = () => {
             setReceivedDrawing('{"lines":[],"width":150,"height":752}');
             setShowDrawing(false);
             //console.log(message.user);
-            setTime(15);
+            setTime(60);
         })
 
         socket.on("roomData", ({users})=>{
@@ -210,21 +210,24 @@ const Game = () => {
 
     return(
         <div>
+            <div className="code-bar">
             <p className="code">Code:<span className="code-text">{room}</span> </p>
             {game ? <p className="countdown"><span>{time}</span>s</p> : ''}
+            </div>
+            {game ? '': 
             <div className="player-list">
                 <h2>Players</h2>
                 <ul>
                     {users.slice(0).map((user, index)=><li key={user.name}>{index + 1 + '. '}{user.name} {user.type == 'admin' ? `(${user.type})` : ''}</li>)}
                 </ul>
                 
-            </div>
+            </div>}
            
             <div className="messages">
                 {messages.map((message, i)=> <p key={i}>{message.text}</p>)}
             </div> 
 
-            {phrase ? <div>
+            {phrase ? <div className="starting-phrase">
                 <h2>Enter your starting phrase here...</h2>
                 <input 
                 placeholder="Phrase..."
@@ -243,7 +246,7 @@ const Game = () => {
                 brushColor={color}
                 lazyRadius={0}
                 canvasWidth={window.innerWidth}
-                canvasHeight={window.innerHeight - 175}
+                canvasHeight={window.innerHeight - 350}
                 brushRadius={brush}
                 hideInterface={true}
                 saveData={showDrawing ? receivedDrawing : '{"lines":[],"width":150,"height":752}'}
