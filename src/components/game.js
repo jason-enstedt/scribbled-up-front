@@ -75,16 +75,14 @@ const Game = () => {
 
 
     useEffect(()=>{
-        socket.on('isAdmin', (admin)=>{
-            setIsAdmin(admin);
-            //console.log(isAdmin);
-        })
+        socket.on('isAdmin', setIsAdmin(true));
        
         
         // if(users.find((user)=> user.name === name).type === 'admin'){
         //     console.log(isAdmin);
         // }
     },[users]);
+
     useLayoutEffect(()=>{
         if(users){
             var myUser = users.find((user) => user.name === name);
