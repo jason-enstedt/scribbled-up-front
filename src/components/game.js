@@ -234,7 +234,7 @@ const Game = () => {
                 className="text-box"
                 value={message} 
                 onChange={(event) => setMessage(event.target.value)} 
-                onKeyPress={event=> event.key === 'Enter' ? sendMessage(event) : null}
+                // onKeyPress={event=> event.key === 'Enter' ? sendMessage(event) : null}
                 />
             </div> :''}
             {draw ? <div className="draw">

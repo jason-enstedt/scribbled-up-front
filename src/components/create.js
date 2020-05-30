@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 const Create = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
+    
    // const chars = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 // and then just do:
         
