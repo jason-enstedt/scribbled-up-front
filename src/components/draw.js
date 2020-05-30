@@ -24,7 +24,7 @@ import CanvasDraw from "react-canvas-draw";
     }
     window.addEventListener('touchmove', function (event) {
         event.preventDefault()
-      }, {passive: false})
+      }, {passive: false});
      return(
          <div>
              <div className="code-bar">

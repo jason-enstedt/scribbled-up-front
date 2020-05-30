@@ -82,7 +82,9 @@ const Game = () => {
         //     console.log(isAdmin);
         // }
     },[users]);
-
+    window.addEventListener('touchmove', function (event) {
+        event.preventDefault()
+      }, {passive: false});
     useLayoutEffect(()=>{
         if(users){
             var myUser = users.find((user) => user.name === name);
