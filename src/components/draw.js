@@ -22,7 +22,9 @@ import CanvasDraw from "react-canvas-draw";
         setSaved(drawId.current.getSaveData());
         console.log(drawId.current.getSaveData());
     }
-    
+    window.addEventListener('touchmove', function (event) {
+        event.preventDefault()
+      }, {passive: false})
      return(
          <div>
              <div className="code-bar">

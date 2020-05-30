@@ -13,14 +13,14 @@ const Game = () => {
     const [drawing, setDrawing] = useState('');
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
-    const ENDPOINT = 'https://scribbled-up.herokuapp.com/';
+    const ENDPOINT = 'localhost:5000';
     const [game, setGame] = useState(false);
     //const [chain, setChain] = useState([]);
     //const [link, setLink] = useState('');
     const [time, setTime] = useState(0);
     const [draw, setDraw] = useState(false);
     const [phrase, setPhrase] = useState(false);
-    
+    const [initialMessage, setInitialMessage] = useState(true);
     const [receivedDrawing, setReceivedDrawing] = useState('{"lines":[],"width":150,"height":752}');
     const [showDrawing, setShowDrawing] = useState(false);
     const [idMarker, setIdMarker] = useState('');
@@ -133,6 +133,7 @@ const Game = () => {
             setIdMarker(message.id);
             setShowDrawing(true);
            // console.log(decompresseddrawing);
+           setInitialMessage(false);
            setMessage('');
            setTime(15);
         })
@@ -222,13 +223,13 @@ const Game = () => {
                 </ul>
                 
             </div>}
-           
-            <div className="messages">
-                {messages.map((message, i)=> <p key={i}>{message.text}</p>)}
-            </div> 
+           {showDrawing ? '' :<div className="messages">
+                {messages.map((message, i)=> <p key={i}>{ message.text}</p>)}
+            </div> }
+            
 
             {phrase ? <div className="starting-phrase">
-                <h2>Enter your starting phrase here...</h2>
+                <h2>{initialMessage ? 'Enter your starting phrase here...':"Enter your guess here..."}</h2>
                 <input 
                 placeholder="Phrase..."
                 className="text-box"
