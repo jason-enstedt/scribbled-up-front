@@ -33,11 +33,14 @@ const Game = () => {
         const urlParams = new URLSearchParams(queryString);
         const name = urlParams.get('name');
         const room = urlParams.get('room');
-        
+        const type = urlParams.get('type');
 
         socket = io(ENDPOINT);
         setName(name);
         setRoom(room);
+        if(type == 'admin'){
+            setIsAdmin(true);
+        }
         socket.emit('join', {name, room}, () =>{
             
         });
@@ -56,22 +59,22 @@ const Game = () => {
     //update messages and users
     useEffect(()=>{
         socket.on('message', (message)=>{
+            setTime(60);
             setMessages([message]);
-            
             setIdMarker(message.user);
-           // console.log(showDrawing);
             setReceivedDrawing('{"lines":[],"width":150,"height":752}');
             setShowDrawing(false);
-            //console.log(message.user);
-            setTime(60);
+            
         })
+    }, [messages]);
 
+    useEffect(()=>{
         socket.on("roomData", ({users})=>{
             setUsers(users);
 
             
         })
-    }, [messages, users]);
+    },[users]);
 
 
     useEffect(()=>{
@@ -82,9 +85,14 @@ const Game = () => {
         
         
     },[users]);
-    window.addEventListener('touchmove', function (event) {
+    if(draw){
+        if(!showDrawing){
+            window.addEventListener('touchmove', function (event) {
         event.preventDefault()
       }, {passive: false});
+        }
+    }
+    
     useEffect(()=>{
         if(users){
             var myUser = users.find((user) => user.name === name);
@@ -122,21 +130,20 @@ const Game = () => {
         
         if(drawing){
             
-            socket.emit('sendDrawing', {drawing, idMarker}, () => setDrawing(''));
-            setPhrase(true);
+            socket.emit('sendDrawing', {drawing, idMarker}, () => setDrawing(''), ()=> setPhrase(true));
+            
         }
     }
     //on drawing receive set the state for recevied drawing
     useEffect(()=>{
         socket.on('receiveDrawing', (message)=>{
-            
+            setTime(30);
             setReceivedDrawing(message.drawing);
             setIdMarker(message.id);
             setShowDrawing(true);
-           // console.log(decompresseddrawing);
            setInitialMessage(false);
            setMessage('');
-           setTime(15);
+           
         })
     },[receivedDrawing])
 

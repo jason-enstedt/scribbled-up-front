@@ -9,7 +9,7 @@
   background-color: rgb(243, 243, 243);
   height: 100vh;
   width:100vw;
-  overflow: hidden;
+ 
 }
 #root{
   width:100vw;
@@ -19,7 +19,7 @@ html{
   widows: 100vw;
   
   height:100%;
-  overflow: hidden;
+  
 }
 .App-logo {
   height: 40vmin;
