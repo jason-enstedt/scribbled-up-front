@@ -85,14 +85,14 @@ const Game = () => {
     window.addEventListener('touchmove', function (event) {
         event.preventDefault()
       }, {passive: false});
-    useLayoutEffect(()=>{
+    useEffect(()=>{
         if(users){
             var myUser = users.find((user) => user.name === name);
             if(myUser == undefined){
 
             }else{
                // console.log(myUser.type);
-                if(myUser.type == 'admin'){
+                if(myUser.type === 'admin'){
                     setIsAdmin(true);
                 }
             }
