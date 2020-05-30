@@ -75,12 +75,12 @@ const Game = () => {
 
 
     useEffect(()=>{
-        socket.on('isAdmin', setIsAdmin(true));
+        socket.on('isAdmin', (message)=>{
+            setIsAdmin(message);
+        });
        
         
-        // if(users.find((user)=> user.name === name).type === 'admin'){
-        //     console.log(isAdmin);
-        // }
+        
     },[users]);
     window.addEventListener('touchmove', function (event) {
         event.preventDefault()
