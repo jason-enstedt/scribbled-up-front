@@ -92,7 +92,7 @@ const Game = () => {
 
             }else{
                // console.log(myUser.type);
-                if(myUser.type === 'admin'){
+                if(myUser.type == 'admin'){
                     setIsAdmin(true);
                 }
             }
