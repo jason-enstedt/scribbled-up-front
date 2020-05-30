@@ -8,7 +8,8 @@ const Join = () => {
     const [roomCheck, setRoomCheck] = useState(false);
     const [id, setId] = useState('');
     const [error, setError] = useState(false);
-    const ENDPOINT = 'localhost:5000';
+    //const ENDPOINT = 'localhost:5000';
+    const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
 
     useEffect(()=> {
     
