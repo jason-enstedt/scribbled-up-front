@@ -130,7 +130,7 @@ const Game = () => {
         
         if(drawing){
             
-            socket.emit('sendDrawing', {drawing, idMarker}, () => setDrawing(''), ()=> setPhrase(true));
+            socket.emit('sendDrawing', {drawing, idMarker}, () => setDrawing(''));
             
         }
     }
@@ -141,6 +141,7 @@ const Game = () => {
             setReceivedDrawing(message.drawing);
             setIdMarker(message.id);
             setShowDrawing(true);
+            setPhrase(true);
            setInitialMessage(false);
            setMessage('');
            
