@@ -16,7 +16,7 @@ const Game = () => {
     //const ENDPOINT = 'localhost:5000';
     const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
     const [game, setGame] = useState(false);
-    //const [chain, setChain] = useState([]);
+    const [chain, setChain] = useState([]);
     //const [link, setLink] = useState('');
     const [time, setTime] = useState(0);
     const [draw, setDraw] = useState(false);
@@ -26,7 +26,24 @@ const Game = () => {
     const [showDrawing, setShowDrawing] = useState(false);
     const [idMarker, setIdMarker] = useState('');
     const [gameEnd, setGameEnd] = useState(false);
+    const [myId, setMyId] = useState('');
+    const [counter, setCounter] = useState(0);
 
+    // useEffect(()=>{
+    //     if(users.length > 0 && counter === 0 && myId === ''){
+    //     const MYID = () => users.find((user)=> user.name === name);
+    //     let offID = MYID.id;
+        
+    //         setMyId(offID);
+        
+        
+    //     setCounter(99);
+        
+    // }
+    // },[users, game]);
+    
+    //console.log(users);
+    
     
     useEffect(()=> {
         const queryString = window.location.search;
@@ -54,28 +71,41 @@ const Game = () => {
         }
 
     }, [ENDPOINT]);
-
+    useEffect(()=>{
+        socket.on('addChain',(message)=>{
+            setChain([...chain], message);
+        })
+        console.log(chain);
+    },[chain]);
 
     //update messages and users
     useEffect(()=>{
         socket.on('message', (message)=>{
-            setTime(60);
+            console.log(message.user);
             setMessages([message]);
             setIdMarker(message.user);
             setReceivedDrawing('{"lines":[],"width":150,"height":752}');
             setShowDrawing(false);
+            socket.emit('sendChain', (message));
+                
             
+        
         })
     }, [messages]);
 
     useEffect(()=>{
-        socket.on("roomData", ({users})=>{
+        socket.on("roomData", ({users, id})=>{
             setUsers(users);
+            //setMyId(id);
 
             
         })
     },[users]);
-
+    useEffect(()=>{
+        socket.on('socketId', (id)=>{
+            setMyId(id);
+        })
+    },[])
 
     useEffect(()=>{
         socket.on('isAdmin', (message)=>{
@@ -93,21 +123,21 @@ const Game = () => {
         }
     }
     
-    useEffect(()=>{
-        if(users){
-            var myUser = users.find((user) => user.name === name);
-            if(myUser == undefined){
+    // useEffect(()=>{
+    //     if(users){
+    //         var myUser = users.find((user) => user.name === name);
+    //         if(myUser == undefined){
 
-            }else{
-               // console.log(myUser.type);
-                if(myUser.type == 'admin'){
-                    setIsAdmin(true);
-                }
-            }
+    //         }else{
+    //            // console.log(myUser.type);
+    //             if(myUser.type == 'admin'){
+    //                 setIsAdmin(true);
+    //             }
+    //         }
             
-        }
-    },[users])
-    console.log(isAdmin);
+    //     }
+    // },[users])
+    // console.log(isAdmin);
     //send a phrase or guess to next user
     const sendMessage = () =>{
         //event.preventDefault();
@@ -120,8 +150,13 @@ const Game = () => {
             // }
             setDraw(true);
             setPhrase(false); 
-            socket.emit('sendMessage', {message, idMarker}, () => setMessage(''));
-            
+            if(initialMessage){
+                var idthing = myId;
+            }else{
+                var idthing = idMarker;
+            }
+            socket.emit('sendMessage', {message, idthing}, () => setMessage(''));
+            setTime(15);
         }
         
     }
@@ -129,22 +164,22 @@ const Game = () => {
     const sendDrawing = () =>{
         
         if(drawing){
-            
+            setPhrase(true);
             socket.emit('sendDrawing', {drawing, idMarker}, () => setDrawing(''));
-            
+            setTime(15);
         }
     }
     //on drawing receive set the state for recevied drawing
     useEffect(()=>{
         socket.on('receiveDrawing', (message)=>{
-            setTime(30);
+            
             setReceivedDrawing(message.drawing);
             setIdMarker(message.id);
             setShowDrawing(true);
-            setPhrase(true);
+            
            setInitialMessage(false);
            setMessage('');
-           
+           socket.emit('sendChain',(message.drawing));
         })
     },[receivedDrawing])
 
