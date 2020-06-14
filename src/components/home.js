@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 const Home = () => (
-    <div>
+    <div className="home-btns">
         
        <Link to="/create" className="btn">Create</Link>
        <Link to="/join" className="btn">Join</Link>
