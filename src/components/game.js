@@ -106,6 +106,10 @@ const Game = () => {
             setUsers(users);
             //setMyId(id);
 
+            // users.forEach((val)=>{
+            //     val.game
+            // })
+
             
         })
     },[users]);
@@ -126,28 +130,26 @@ const Game = () => {
     },[users]);
 
     if(draw){
+
         if(!showDrawing){
             window.addEventListener('touchmove', function (event) {
-        event.preventDefault()
-      }, {passive: false});
-        }
-    }
-    //console.log(users);
-    // useEffect(()=>{
-    //     if(users){
-    //         var myUser = users.find((user) => user.name === name);
-    //         if(myUser == undefined){
+            event.preventDefault()
+            }, {passive: false});
 
-    //         }else{
-    //            // console.log(myUser.type);
-    //             if(myUser.type == 'admin'){
-    //                 setIsAdmin(true);
-    //             }
-    //         }
-            
-    //     }
-    // },[users])
-    // console.log(isAdmin);
+        }else{
+            window.addEventListener('touchmove', function (event) {
+            event.preventDefault()
+            }, {passive: true});
+        }
+            window.addEventListener('touchmove', function (event) {
+            event.preventDefault()
+            }, {passive: true});
+    }else{
+            window.addEventListener('touchmove', function (event) {
+            event.preventDefault()
+            }, {passive: true});
+    }
+    
     //send a phrase or guess to next user
     const sendMessage = (event) =>{
         event.preventDefault();
@@ -201,6 +203,11 @@ const Game = () => {
            //socket.emit('sendChain',({payload:message.drawing, id:message.id}));
         })
     },[receivedDrawing])
+
+
+    useEffect(()=>{
+
+    })
 
     //starts the game for everyone
     const startGame = (event) => {
@@ -276,7 +283,7 @@ const Game = () => {
         <div>
             <div className="code-bar">
                 <p className="code">Code:<span className="code-text">{room}...</span> </p>
-                {game ? <p className="countdown"><span>{time}</span>s</p> : ''}
+                
             </div>
 
             {!gameEnd ?  <div>
@@ -287,9 +294,10 @@ const Game = () => {
            <div className="player-list">
                
                 <h2>Players</h2>
-                <ul>
+                {users.length > 0 ?<ul>
                     {users.slice(0).map((user, index)=><li key={user.name}>{index + 1 + '. '}{user.name} {user.type == 'admin' ? `(${user.type})` : ''}</li>)}
-                </ul>
+                </ul> : <img  src={process.env.PUBLIC_URL + '/loading.png'} className="loading"></img>}
+                
                 
             </div>
             }
@@ -312,8 +320,8 @@ const Game = () => {
                     onChange={(event) => setMessage(event.target.value)} 
                     // onKeyPress={event=> event.key === 'Enter' ? sendMessage(event) : null}
                     />
-                    <button onClick={sendMessage}>Send</button>
-                </div> : <p>Message Sent!</p>}
+                    <button onClick={sendMessage} className="btn">Send</button>
+                </div> : <p className="message-sent">Message Sent! Waiting for other players...</p>}
                 
             </div>
             :''}
@@ -342,7 +350,12 @@ const Game = () => {
                     <div className="buttons">
                         {createColors}
                     </div>   
-                    <input type="range" min="1" max="40" className="slider" value={brush} onChange={(event)=>setBrush(event.target.value)}/> 
+                    {/* <input type="range" min="1" max="40" className="slider" value={brush} onChange={(event)=>setBrush(event.target.value)}/>  */}
+                    <div className="brush-btn">
+                        <button className="small-brush" onClick={()=>setBrush(3)}><span></span></button>
+                        <button className="medium-brush" onClick={()=>setBrush(12)}><span></span></button>
+                        <button className="large-brush" onClick={()=>setBrush(40)}><span></span></button>
+                    </div>
                     <div className="high-buttons">
                         <button
                         className={'color-btn', 'super-btn'}
@@ -352,7 +365,7 @@ const Game = () => {
                         >
                         <img src={process.env.PUBLIC_URL + '/undo.png'} />
                         </button>
-                        <button onClick={sendDrawing}>Send</button>
+                        <button onClick={sendDrawing} className='btn'>Send</button>
                         <button
                         className={'color-btn','super-btn'}
                             onClick={() => drawId.current.clear()
@@ -363,7 +376,7 @@ const Game = () => {
                     </div>  
                 </div>
                 }
-                </div> :<p>Drawing Sent!</p>}
+                </div> :<p className="message-sent">Drawing Sent!  Waiting for other players...</p>}
                 
 
             </div> :''}
