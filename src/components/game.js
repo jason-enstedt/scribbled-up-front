@@ -28,6 +28,8 @@ const Game = () => {
     const [gameEnd, setGameEnd] = useState(false);
     const [myId, setMyId] = useState('');
     const [counter, setCounter] = useState(1);
+    const [showMessageInput, setShowMessageInput] = useState(true);
+    const [showDrawingInput, setShowDrawingInput] = useState(true);
 
     // useEffect(()=>{
     //     if(users.length > 0 && counter === 0 && myId === ''){
@@ -83,6 +85,7 @@ const Game = () => {
     useEffect(()=>{
         socket.on('message', (message)=>{
            // console.log(message.user);
+           setShowDrawingInput(true);
             setMessages([message]);
             setIdMarker(message.user);
             setCounter(message.counter + 1);
@@ -155,7 +158,7 @@ const Game = () => {
             // }else{
             //     var newId = '';
             // }
-             
+             setShowMessageInput(false);
             if(initialMessage){
                 console.log(counter);
                 socket.emit('sendMessage', {message, idthing:myId, counter:counter}, () => setMessage(''), ()=> setCounter(counter + 1));
@@ -174,6 +177,7 @@ const Game = () => {
     const sendDrawing = (event) =>{
         event.preventDefault();
         if(drawing){
+            setShowDrawingInput(false);
             console.log(counter);
             //idMarker is not being changed, always will be empty string
             socket.emit('sendDrawing', {drawing, idMarker, counter:counter}, () => setDrawing(''), ()=> setCounter(counter + 1));
@@ -183,6 +187,8 @@ const Game = () => {
     //on drawing receive set the state for recevied drawing
     useEffect(()=>{
         socket.on('receiveDrawing', (message)=>{
+            setShowDrawingInput(true);
+            setShowMessageInput(true);
             setPhrase(true);
             setReceivedDrawing(message.drawing);
             console.log(message.id);
@@ -296,65 +302,70 @@ const Game = () => {
             
 
             {phrase ? 
-            <div className="starting-phrase">
-                <h2>{initialMessage ? 'Enter your starting phrase here...':"Enter your guess here..."}</h2>
-                <input 
-                placeholder="Phrase..."
-                className="text-box"
-                value={message} 
-                onChange={(event) => setMessage(event.target.value)} 
-                // onKeyPress={event=> event.key === 'Enter' ? sendMessage(event) : null}
-                />
-                <button onClick={sendMessage}>Send</button>
-            </div> 
+            <div>
+                {showMessageInput ? <div className="starting-phrase">
+                    <h2>{initialMessage ? 'Enter your starting phrase here...':"Enter your guess here..."}</h2>
+                    <input 
+                    placeholder="Phrase..."
+                    className="text-box"
+                    value={message} 
+                    onChange={(event) => setMessage(event.target.value)} 
+                    // onKeyPress={event=> event.key === 'Enter' ? sendMessage(event) : null}
+                    />
+                    <button onClick={sendMessage}>Send</button>
+                </div> : <p>Message Sent!</p>}
+                
+            </div>
             :''}
 
             {draw ? 
             <div className="draw">
+                {showDrawingInput ?<div>
+                    <CanvasDraw 
+                    onChange={finishDrawing}
+                    className="canvasDraw"
+                    ref={drawId}
+                    hideGrid={true}
+                    brushColor={color}
+                    lazyRadius={0}
+                    canvasWidth={window.innerWidth}
+                    canvasHeight={window.innerHeight - 350}
+                    brushRadius={brush}
+                    hideInterface={true}
+                    saveData={showDrawing ? receivedDrawing : '{"lines":[],"width":150,"height":752}'}
+                    disabled={showDrawing ? true : false}
+                    />
+                    
+                {showDrawing ?
+                '' : 
+                <div>
+                    <div className="buttons">
+                        {createColors}
+                    </div>   
+                    <input type="range" min="1" max="40" className="slider" value={brush} onChange={(event)=>setBrush(event.target.value)}/> 
+                    <div className="high-buttons">
+                        <button
+                        className={'color-btn', 'super-btn'}
+                        style={{backgroundColor:''}}
+                            onClick={() => drawId.current.undo()
+                            }
+                        >
+                        <img src={process.env.PUBLIC_URL + '/undo.png'} />
+                        </button>
+                        <button onClick={sendDrawing}>Send</button>
+                        <button
+                        className={'color-btn','super-btn'}
+                            onClick={() => drawId.current.clear()
+                            }
+                        >
+                        <img src={process.env.PUBLIC_URL + '/bin.png'} />
+                        </button>
+                    </div>  
+                </div>
+                }
+                </div> :<p>Drawing Sent!</p>}
                 
-                <CanvasDraw 
-                onChange={finishDrawing}
-                className="canvasDraw"
-                ref={drawId}
-                hideGrid={true}
-                brushColor={color}
-                lazyRadius={0}
-                canvasWidth={window.innerWidth}
-                canvasHeight={window.innerHeight - 350}
-                brushRadius={brush}
-                hideInterface={true}
-                saveData={showDrawing ? receivedDrawing : '{"lines":[],"width":150,"height":752}'}
-                disabled={showDrawing ? true : false}
-                />
-                
-            {showDrawing ?
-             '' : 
-             <div>
-                <div className="buttons">
-                    {createColors}
-                </div>   
-                <input type="range" min="1" max="40" className="slider" value={brush} onChange={(event)=>setBrush(event.target.value)}/> 
-                <div className="high-buttons">
-                    <button
-                    className={'color-btn', 'super-btn'}
-                    style={{backgroundColor:''}}
-                        onClick={() => drawId.current.undo()
-                        }
-                    >
-                    <img src={process.env.PUBLIC_URL + '/undo.png'} />
-                    </button>
-                    <button onClick={sendDrawing}>Send</button>
-                    <button
-                    className={'color-btn','super-btn'}
-                        onClick={() => drawId.current.clear()
-                        }
-                    >
-                    <img src={process.env.PUBLIC_URL + '/bin.png'} />
-                    </button>
-                </div>  
-             </div>
-            }
-            
+
             </div> :''}
 
             {game ? '' :
