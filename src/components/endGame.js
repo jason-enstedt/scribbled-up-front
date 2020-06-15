@@ -1,78 +1,79 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CanvasDraw from "react-canvas-draw";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {Carousel} from 'react-responsive-carousel';
+
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const EndGame = (props) => {
- console.log(props);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
- const resultMaker = () =>{
-   console.log(props.data[0])
-   let user = props.data.map((value, index)=>{
-       if((index + 1)%2 === 0){
-           return(
-           <p>{value.game.length} even</p>
-           )
-       }else{
-           return(
-              <p>{value.game.length} odd </p> 
-           )
-            
-       }
+    const buttonMaker = props.data.map((user, index)=>(<button className="btn" onClick={()=>{showMe(index)}}>{user.name}</button>))
        
-   });
-        return(
-           <div>
-               {user}
-           </div>
-        )
- }
- const resultMaker2 = () =>{
+    const showMe = (index)=>{
+        setCurrentSlide(index);
+    }
+ const resultMaker2 = (index) =>{
     console.log(props.data[0])
-    let users = props.data.map((value, index)=>{
-        let user = value.game.map((val, index)=>{
+
+    let users = props.data[index].game.map((val, index)=>{
+        
+        
             if((index + 1)%2 === 0){
                 return(
-                <CanvasDraw 
-                    className="canvasDraw"
-                    hideGrid={true}
-                    
-                    lazyRadius={0}
-                    canvasWidth={window.innerWidth}
-                    canvasHeight={window.innerHeight - 350}
-                    
-                    hideInterface={true}
-                    saveData={val}
-                    disabled={true}
-                    />
+                    <div className="slider-slide">
+                        <CanvasDraw 
+                        className="canvasDraw"
+                        hideGrid={true}
+                        
+                        lazyRadius={0}
+                        canvasWidth={window.innerWidth}
+                        canvasHeight={window.innerHeight - 350}
+                        
+                        hideInterface={true}
+                        saveData={val}
+                        disabled={true}
+                        />
+                    </div>
                 )
             }else{
-                return(
-                    <p>{val}</p>
+                if(index === 0){
+                    return (
+                        <div className="slider-slide">
+                        <p>Starting Phrase was...<br />{val}</p>
+                    </div>
+                    )
+                }else{
+                    return(
+                    <div className="slider-slide">
+                        <p>{val}</p>
+                    </div>
                 )
+                }
+                
                  
             }
-        })
 
-        return(
-            <div>
-                <h2>{value.name}</h2>
-                {user}
-            </div>
-        )
         
     });
          return(
-            <div>
+            <Slider className={index +1}>
                 {users}
-            </div>
+            </Slider> 
          )
   }
     
 return(
 
     <div className="endgame">
-       <p>end game{}</p>
+       
        <div>
-           {resultMaker2()}
+           {resultMaker2(currentSlide)}
+       </div>
+       <div className="end-btn">
+           {buttonMaker}
        </div>
     </div>
 )}
