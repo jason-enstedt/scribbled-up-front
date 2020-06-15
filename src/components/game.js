@@ -89,7 +89,7 @@ const Game = () => {
             setMessages([message]);
             setIdMarker(message.user);
             setCounter(message.counter + 1);
-            console.log("counter +");
+           // console.log("counter +");
             setDraw(true);
             setPhrase(false);
             setReceivedDrawing('{"lines":[],"width":150,"height":752}');
@@ -129,26 +129,7 @@ const Game = () => {
         
     },[users]);
 
-    if(draw){
-
-        if(!showDrawing){
-            window.addEventListener('touchmove', function (event) {
-            event.preventDefault()
-            }, {passive: false});
-
-        }else{
-            window.addEventListener('touchmove', function (event) {
-            event.preventDefault()
-            }, {passive: true});
-        }
-            window.addEventListener('touchmove', function (event) {
-            event.preventDefault()
-            }, {passive: true});
-    }else{
-            window.addEventListener('touchmove', function (event) {
-            event.preventDefault()
-            }, {passive: true});
-    }
+    
     
     //send a phrase or guess to next user
     const sendMessage = (event) =>{
@@ -162,12 +143,12 @@ const Game = () => {
             // }
              setShowMessageInput(false);
             if(initialMessage){
-                console.log(counter);
+               // console.log(counter);
                 socket.emit('sendMessage', {message, idthing:myId, counter:counter}, () => setMessage(''), ()=> setCounter(counter + 1));
             }else{
-               console.log("message sent");
-               console.log(idMarker);
-               console.log(counter);
+               //console.log("message sent");
+               //console.log(idMarker);
+               //console.log(counter);
                 socket.emit('sendMessage', {message, idthing:idMarker, counter:counter}, () => setMessage(''), ()=> setCounter(counter + 1));
             }
             
@@ -180,7 +161,7 @@ const Game = () => {
         event.preventDefault();
         if(drawing){
             setShowDrawingInput(false);
-            console.log(counter);
+           // console.log(counter);
             //idMarker is not being changed, always will be empty string
             socket.emit('sendDrawing', {drawing, idMarker, counter:counter}, () => setDrawing(''), ()=> setCounter(counter + 1));
             //setTime(15);
@@ -193,21 +174,31 @@ const Game = () => {
             setShowMessageInput(true);
             setPhrase(true);
             setReceivedDrawing(message.drawing);
-            console.log(message.id);
+            //console.log(message.id);
             setIdMarker(message.id);
             setShowDrawing(true);
             setCounter(message.counter + 1);
-           console.log(counter);
+           //console.log(counter);
            setInitialMessage(false);
            setMessage('');
            //socket.emit('sendChain',({payload:message.drawing, id:message.id}));
         })
     },[receivedDrawing])
 
-
+    if(draw){
+        if(!showDrawing){
+            window.addEventListener('touchmove', function (event) {
+            event.preventDefault()
+            }, {passive: false});
+        }
+    }
+    
     useEffect(()=>{
-
-    })
+            window.addEventListener('touchmove', function (event) {
+            event.preventDefault()
+            }, {passive: true});
+    
+    },[gameEnd])
 
     //starts the game for everyone
     const startGame = (event) => {
@@ -321,7 +312,7 @@ const Game = () => {
                     // onKeyPress={event=> event.key === 'Enter' ? sendMessage(event) : null}
                     />
                     <button onClick={sendMessage} className="btn">Send</button>
-                </div> : <p className="message-sent">Message Sent! Waiting for other players...</p>}
+                </div> : <p className="message-sent">Message Sent!<br /> Waiting for other players...</p>}
                 
             </div>
             :''}
@@ -376,7 +367,7 @@ const Game = () => {
                     </div>  
                 </div>
                 }
-                </div> :<p className="message-sent">Drawing Sent!  Waiting for other players...</p>}
+                </div> :<p className="message-sent">Drawing Sent!<br />  Waiting for other players...</p>}
                 
 
             </div> :''}
