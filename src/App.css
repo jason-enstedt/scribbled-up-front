@@ -466,3 +466,22 @@ font-size:2.3em;
 .endgame .btn{
   width:30%;
 }
+.back{
+ width:70%;
+ margin: 0 auto;
+ text-align: left;
+ max-width: 400px;
+ padding-top: 30px;
+ font-size: 1.2em;
+}
+.pausegame{
+  width:100%;
+  height:100%;
+  background-color: rgba(173, 173, 173, 0.199);
+}
+.pausegame div{
+  width:80%;
+  height:80%;
+  background-color: white;
+
+}

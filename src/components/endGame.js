@@ -72,6 +72,7 @@ return(
        <div>
            {resultMaker2(currentSlide)}
        </div>
+       <h2>Show Other Players</h2>
        <div className="end-btn">
            {buttonMaker}
        </div>

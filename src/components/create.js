@@ -4,9 +4,7 @@ const Create = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     
-   // const chars = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-// and then just do:
-        
+
     useEffect(()=>{
         setRoom(Math.floor(Math.random() * (9999 - 1000 + 1) + 1000));
     },[])
@@ -20,6 +18,12 @@ return(
        <Link className="btn" onClick={event=> (!name || !room) ? event.preventDefault() : null}to={`/game?type=admin&name=${name}&room=${room}`}>
            Create Game
        </Link>
+        <div className="back">
+            <Link to="/">Go Back</Link>
+        </div>
+       
+       
+       
     </div>
 )}
 export default Create;

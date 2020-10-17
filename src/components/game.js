@@ -13,8 +13,8 @@ const Game = () => {
     const [drawing, setDrawing] = useState('');
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
-    //const ENDPOINT = 'localhost:5000';
-    const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
+    const ENDPOINT = 'localhost:5000';
+    //const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
     const [game, setGame] = useState(false);
     //const [chain, setChain] = useState([]);
     //const [link, setLink] = useState('');
@@ -30,6 +30,7 @@ const Game = () => {
     const [counter, setCounter] = useState(1);
     const [showMessageInput, setShowMessageInput] = useState(true);
     const [showDrawingInput, setShowDrawingInput] = useState(true);
+    const [pauseGame, setPauseGame] = useState(false);
 
     // useEffect(()=>{
     //     if(users.length > 0 && counter === 0 && myId === ''){
@@ -67,7 +68,7 @@ const Game = () => {
         
 
         return () =>{
-            socket.emit('disconnect');
+            socket.emit('disconnect', {id:myId, room:room});
 
             socket.off();
         }
@@ -129,7 +130,12 @@ const Game = () => {
         
     },[users]);
 
-    
+    useEffect(()=>{
+        socket.on('userLeft',() =>{
+            setPauseGame(true);
+            console.log("paused");
+        });
+    })
     
     //send a phrase or guess to next user
     const sendMessage = (event) =>{
@@ -388,7 +394,16 @@ const Game = () => {
                 
             </div>
             }
+            {pauseGame ?
+                <div className="pausegame">
+                    <div>
+                        <h2>Game Paused</h2>
+                        <p>Someone left the game. Please wait until they join again, or someone replaces their spot!</p>
+                    </div>
+                </div> 
+            : ""}
             
+
             </div> : <EndGame data={users} id={myId} />}
         </div>
         

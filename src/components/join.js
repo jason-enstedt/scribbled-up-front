@@ -8,8 +8,9 @@ const Join = () => {
     const [roomCheck, setRoomCheck] = useState(false);
     const [id, setId] = useState('');
     const [error, setError] = useState(false);
-   //const ENDPOINT = 'localhost:5000';
-    const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
+    const [errorMessage, setErrorMessage] = useState('');
+   const ENDPOINT = 'localhost:5000';
+    //const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
 
     useEffect(()=> {
     
@@ -31,6 +32,7 @@ const Join = () => {
         setRoomCheck(response.response);
         if(response.response == false){
             setError(true);
+            setErrorMessage(response.error);
         }
         });
         
@@ -43,12 +45,15 @@ const Join = () => {
        <div className="join-inputs">
            <input placeholder="name..." type="text" onChange={(event)=>setName(event.target.value)} value={name}></input>
         <input placeholder="room code..." type="text" onChange={(event)=>setRoom(event.target.value)} value={room}></input>
-       {error ? <p className="error">{roomCheck ? '' : 'Please Enter a Valid Room Code'}</p> : ""}
+       {error ? <p className="error">{roomCheck ? '' : errorMessage}</p> : ""}
        </div>
        <div></div>
        <Link className={roomCheck ? 'btn' : 'fake-btn'} onClick={event=> (!name || !room || !roomCheck) ? event.preventDefault() : null}to={`/game?name=${name}&room=${room}`}>
            Join Game
        </Link>
+       <div className="back">
+            <Link to="/">Go Back</Link>
+        </div>
     </div>
     )
 }
