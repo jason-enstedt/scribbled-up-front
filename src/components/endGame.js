@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import CanvasDraw from "react-canvas-draw";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import {Carousel} from 'react-responsive-carousel';
+// import {Carousel} from 'react-responsive-carousel';
 
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";

@@ -21,7 +21,7 @@ const Join = () => {
     }, []);
     useEffect(()=>{
         if(id !== ''){
-            let lowerRoom = room.toLowerCase();
+            //let lowerRoom = room.toLowerCase();
             console.log(room);
             console.log(room.toLowerCase())
             socket.emit('checkRoom', {room, id});

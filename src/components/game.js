@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect, Redirect} from 'react';
+import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
 import CanvasDraw from "react-canvas-draw";
 import EndGame from "./endGame";
@@ -18,7 +18,7 @@ const Game = () => {
     const [game, setGame] = useState(false);
     //const [chain, setChain] = useState([]);
     //const [link, setLink] = useState('');
-    const [time, setTime] = useState(0);
+    // const [time, setTime] = useState(0);
     const [draw, setDraw] = useState(false);
     const [phrase, setPhrase] = useState(false);
     const [initialMessage, setInitialMessage] = useState(true);
@@ -58,7 +58,7 @@ const Game = () => {
         socket = io(ENDPOINT);
         setName(name);
         setRoom(room);
-        if(type == 'admin'){
+        if(type === 'admin'){
             setIsAdmin(true);
         }
         socket.emit('join', {name, room}, () =>{
