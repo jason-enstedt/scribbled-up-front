@@ -7,31 +7,44 @@ import Join from './components/join';
 import Game from './components/game';
 import Top from './components/top';
 import Draw from './components/draw';
+import background from '../src/images/social-media-doodle-seamless-pattern-social-media-doodle-seamless-pattern-repeated-ornament-hand-drawn-elements-white-162559147.jpg';
 function App() {
+  var sectionStyle = {
+      backgroundImage: "url("+ background + ")",
+  };
   return (
-    <div className="App">
+    <div className="App" style={sectionStyle}>
      
       <Router>
+
         <Top />
+
         <Switch>
+
           <Route path="/" exact >
             <Home />
           </Route>
+
           <Route path="/create" exact>
             <Create />
           </Route>
+
           <Route path="/join" exact>
             <Join />
           </Route>
+
           <Route path="/game" exact>
             <Game />
           </Route>
+
           <Route path="/draw" exact>
             <Draw />
           </Route>
+
           <Route >
             <Home />
           </Route>
+
         </Switch>
           
       </Router>

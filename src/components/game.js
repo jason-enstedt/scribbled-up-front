@@ -13,8 +13,8 @@ const Game = () => {
     const [drawing, setDrawing] = useState('');
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
-    const ENDPOINT = 'localhost:5000';
-    //const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
+    //const ENDPOINT = 'localhost:5000';
+    const ENDPOINT = 'https://scribbled-up.herokuapp.com/'
     const [game, setGame] = useState(false);
     //const [chain, setChain] = useState([]);
     //const [link, setLink] = useState('');
