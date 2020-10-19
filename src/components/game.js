@@ -279,12 +279,12 @@ const Game = () => {
 
     return(
         <div className="game-container">
-            <div className="code-bar">
+            {!draw ?<div className="code-bar">
                 <p className="code">Code:<span className="code-text">{room}</span> </p>
-                
-            </div>
+            </div> :'' }
+            
 
-            {!gameEnd ?  <div>
+            {!gameEnd ?  <div className="test">
 
 
 
@@ -344,7 +344,7 @@ const Game = () => {
                     
                 {showDrawing ?
                 '' : 
-                <div>
+                <div className="controls">
                     <div className="buttons">
                         {createColors}
                     </div>   
