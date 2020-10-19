@@ -15,14 +15,14 @@ const EndGame = (props) => {
     const showMe = (index)=>{
         setCurrentSlide(index);
     }
-    // useEffect(()=>{
-    //     props.data.forEach((element, index) => {
-    //         if(element.id === props.id){
-    //             console.log("index", index);
-    //             setCurrentSlide(index + 1); 
-    //         }
-    //     });
-    // },[])
+    useEffect(()=>{
+        props.data.forEach((element, index) => {
+            if(element.id === props.id){
+                console.log("index", index);
+                setCurrentSlide(index); 
+            }
+        });
+    },[]);
 
     
     const resultMaker2 = (index) =>{
@@ -48,7 +48,7 @@ const EndGame = (props) => {
                 if(index === 0){
                     return (
                         <div className="slider-slide">
-                        <p>{props.data[index].name}'s starting phrase was...<br />{val} <br /> </p>
+                        <p>{props.data[currentSlide].name}'s starting phrase was...<br />{val} <br /> </p>
                     </div>
                     )
                 }else{
@@ -76,7 +76,7 @@ return(
     <div className="endgame">
        
        <div>
-           {resultMaker2({currentSlide})}
+           {resultMaker2(currentSlide)}
        </div>
        <h2>Click to show Other Players</h2>
        <div className="end-btn">
