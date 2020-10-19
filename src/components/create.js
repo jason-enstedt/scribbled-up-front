@@ -13,7 +13,7 @@ return(
 
     <div className="create">
        
-       <div><input placeholder="name" type="text" onChange={(event)=>setName(event.target.value)} value={name}></input></div>
+       <div className="create-input"><input placeholder="name" type="text" onChange={(event)=>setName(event.target.value)} value={name}></input></div>
        
        <Link className="btn" onClick={event=> (!name || !room) ? event.preventDefault() : null}to={`/game?type=admin&name=${name}&room=${room}`}>
            Create Game

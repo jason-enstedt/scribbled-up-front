@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CanvasDraw from "react-canvas-draw";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 // import {Carousel} from 'react-responsive-carousel';
@@ -9,28 +9,34 @@ import "slick-carousel/slick/slick-theme.css";
 
 const EndGame = (props) => {
     const [currentSlide, setCurrentSlide] = useState(0);
-
+    const [startingSlide, setStartingSlide] = useState(0);
     const buttonMaker = props.data.map((user, index)=>(<button className="btn" onClick={()=>{showMe(index)}}>{user.name}</button>))
        
     const showMe = (index)=>{
         setCurrentSlide(index);
     }
- const resultMaker2 = (index) =>{
-    console.log(props.data[0])
+    // useEffect(()=>{
+    //     props.data.forEach((element, index) => {
+    //         if(element.id === props.id){
+    //             console.log("index", index);
+    //             setCurrentSlide(index + 1); 
+    //         }
+    //     });
+    // },[])
 
-    let users = props.data[index].game.map((val, index)=>{
-        
-        
+    
+    const resultMaker2 = (index) =>{
+        let users = props.data[index].game.map((val, index)=>{
             if((index + 1)%2 === 0){
                 return(
                     <div className="slider-slide">
                         <CanvasDraw 
                         className="canvasDraw"
                         hideGrid={true}
-                        
+                        initialSlide={0}
                         lazyRadius={0}
                         canvasWidth={window.innerWidth}
-                        canvasHeight={window.innerHeight - 350}
+                        canvasHeight={window.innerWidth * 1.2}
                         
                         hideInterface={true}
                         saveData={val}
@@ -42,7 +48,7 @@ const EndGame = (props) => {
                 if(index === 0){
                     return (
                         <div className="slider-slide">
-                        <p>Starting Phrase was...<br />{val}</p>
+                        <p>{props.data[index].name}'s starting phrase was...<br />{val} <br /> </p>
                     </div>
                     )
                 }else{
@@ -70,9 +76,9 @@ return(
     <div className="endgame">
        
        <div>
-           {resultMaker2(currentSlide)}
+           {resultMaker2({currentSlide})}
        </div>
-       <h2>Show Other Players</h2>
+       <h2>Click to show Other Players</h2>
        <div className="end-btn">
            {buttonMaker}
        </div>

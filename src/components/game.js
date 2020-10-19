@@ -96,9 +96,6 @@ const Game = () => {
             setReceivedDrawing('{"lines":[],"width":150,"height":752}');
             setShowDrawing(false);
             //socket.emit('sendChain', ({payload:message.text, id:message.user}));
-                
-            
-        
         })
     }, [messages]);
 
@@ -205,7 +202,11 @@ const Game = () => {
             }, {passive: true});
     
     },[gameEnd])
-
+    useEffect(()=>{
+        var element = document.getElementById("App");
+        element.classList.add("invert");
+    },[]);
+    
     //starts the game for everyone
     const startGame = (event) => {
         event.preventDefault();
@@ -277,9 +278,9 @@ const Game = () => {
      
 
     return(
-        <div>
+        <div className="game-container">
             <div className="code-bar">
-                <p className="code">Code:<span className="code-text">{room}...</span> </p>
+                <p className="code">Code:<span className="code-text">{room}</span> </p>
                 
             </div>
 
@@ -334,7 +335,7 @@ const Game = () => {
                     brushColor={color}
                     lazyRadius={0}
                     canvasWidth={window.innerWidth}
-                    canvasHeight={window.innerHeight - 350}
+                    canvasHeight={window.innerWidth * 1.2}
                     brushRadius={brush}
                     hideInterface={true}
                     saveData={showDrawing ? receivedDrawing : '{"lines":[],"width":150,"height":752}'}

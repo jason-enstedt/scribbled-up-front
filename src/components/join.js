@@ -43,8 +43,8 @@ const Join = () => {
     <div className="join">
         <p>Join a Room that your friend has made, or <Link className="text-link" to="/create">CREATE</Link> one</p>
        <div className="join-inputs">
-           <input placeholder="name..." type="text" onChange={(event)=>setName(event.target.value)} value={name}></input>
-        <input placeholder="room code..." type="text" onChange={(event)=>setRoom(event.target.value)} value={room}></input>
+           <input placeholder="name..." maxLength="20" type="text" onChange={(event)=>setName(event.target.value)} value={name}></input>
+        <input placeholder="room code..." maxLength="4" type="text" onChange={(event)=>setRoom(event.target.value)} value={room}></input>
        {error ? <p className="error">{roomCheck ? '' : errorMessage}</p> : ""}
        </div>
        <div></div>

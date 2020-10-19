@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.scss';
 import Home from './components/home';
@@ -12,9 +12,17 @@ function App() {
   var sectionStyle = {
       backgroundImage: "url("+ background + ")",
   };
+  
+  
+    
+  
+    
+  
+  
+  
   return (
-    <div className="App" style={sectionStyle}>
-     
+    <div className="App" id ="App" style={sectionStyle}>
+    <div className="stacker">
       <Router>
 
         <Top />
@@ -48,8 +56,12 @@ function App() {
         </Switch>
           
       </Router>
+    </div>
+     
+      
    </div>
   );
+  
 }
 
 export default App;
